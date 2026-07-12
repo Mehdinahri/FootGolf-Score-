@@ -18,16 +18,14 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      setIsAuthenticated(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !!localStorage.getItem("access_token");
     }
-  }, []);
+    return false;
+  });
 
-  const { data: user, isLoading, refetch } = useQuery({
+  const { data: user, isLoading: isQueryLoading, refetch } = useQuery({
     queryKey: queryKeys.auth.me,
     queryFn: async () => {
       const { data } = await api.get<ApiResponse<User>>("/auth/me");
@@ -52,8 +50,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     window.location.href = "/login";
   };
 
+  const isLoading = isAuthenticated ? isQueryLoading : false;
+
   return (
-    <AuthContext.Provider value={{ user: user || null, isLoading: isLoading && isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user: user || null, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -66,4 +66,3 @@ export function useAuth() {
   }
   return context;
 }
-
