@@ -6,7 +6,7 @@ import { env } from "@/lib/env";
 
 type WebSocketMessage = {
   type: string;
-  payload: any;
+  data: any;
 };
 
 export function useWebSocket(gameId: string) {

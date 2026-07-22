@@ -55,9 +55,14 @@ VALID_TRANSITIONS: dict[GameStatus, list[GameStatus]] = {
     GameStatus.REGISTRATION_OPEN: [
         GameStatus.FULL,
         GameStatus.REGISTRATION_CLOSED,
+        GameStatus.IN_PROGRESS,
         GameStatus.CANCELLED,
     ],
-    GameStatus.FULL: [GameStatus.REGISTRATION_CLOSED, GameStatus.CANCELLED],
+    GameStatus.FULL: [
+        GameStatus.REGISTRATION_CLOSED,
+        GameStatus.IN_PROGRESS,
+        GameStatus.CANCELLED
+    ],
     GameStatus.REGISTRATION_CLOSED: [GameStatus.IN_PROGRESS, GameStatus.CANCELLED],
     GameStatus.IN_PROGRESS: [GameStatus.FINISHED, GameStatus.CANCELLED],
     GameStatus.FINISHED: [],

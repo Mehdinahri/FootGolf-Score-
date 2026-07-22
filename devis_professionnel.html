@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devis Professionnel - FootGolf Score Manager (300 DH/j)</title>
+  <style>
+    :root {
+      --primary-color: #0f172a;
+      --accent-color: #16a34a;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-600: #475569;
+      --slate-800: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--slate-800);
+      background-color: #f3f4f6;
+      padding: 40px 20px;
+      line-height: 1.5;
+    }
+
+    .invoice-container {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--slate-200);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--slate-100);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .logo-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-title span {
+      color: var(--accent-color);
+    }
+
+    .quote-badge {
+      display: inline-block;
+      background: var(--slate-100);
+      color: var(--primary-color);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .meta-details {
+      text-align: right;
+      font-size: 14px;
+      color: var(--slate-600);
+      margin-top: 8px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+
+    .items-table th {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 16px;
+    }
+
+    .items-table th:first-child {
+      border-top-left-radius: 6px;
+    }
+
+    .items-table th:last-child {
+      border-top-right-radius: 6px;
+      text-align: right;
+    }
+
+    .items-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--slate-200);
+      font-size: 13.5px;
+      vertical-align: top;
+    }
+
+    .items-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .item-desc {
+      color: var(--slate-600);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .totals-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 36px;
+    }
+
+    .totals-box {
+      width: 340px;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--slate-600);
+    }
+
+    .totals-row.final {
+      border-top: 2px solid var(--slate-200);
+      margin-top: 8px;
+      padding-top: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary-color);
+    }
+
+    .totals-row.final span:last-child {
+      color: var(--accent-color);
+    }
+
+    .payment-terms {
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--slate-600);
+      background: var(--slate-50);
+      padding: 16px 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .payment-terms h4 {
+      color: var(--primary-color);
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+
+      .invoice-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="invoice-container">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <div class="logo-title">⚽ FootGolf <span>Score</span></div>
+        <p style="font-size: 12px; color: var(--slate-600); margin-top: 4px;">Application Web & Mobile de Gestion de
+          Compétitions</p>
+      </div>
+    </div>
+
+    <!-- Objet -->
+    <h3 class="section-title">Objet de la prestation</h3>
+    <p style="font-size: 13.5px; color: var(--slate-600); margin-bottom: 24px;">
+      Conception, développement, sécurisation et déploiement de la solution web & PWA mobile <strong>"FootGolf Score
+        Manager"</strong>, dimensionnée pour supporter une charge minimale de <strong>50 utilisateurs simultanés en
+        compétition (50 CCU)</strong>.
+    </p>
+
+    <!-- Tableau des Modules -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Description du Module / Prestation</th>
+          <th style="text-align: center;">J.H</th>
+          <th style="text-align: center;">TJM HT</th>
+          <th>Total HT (DH)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Module 1 : Authentification, Sécurité & Rôles</strong>
+            <div class="item-desc">Connexion & Inscription avec Captcha anti-robot (défi mathématique), gestion des
+              rôles (Admin, Joueur, Marqueur).</div>
+          </td>
+          <td style="text-align: center;">3.5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 050,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 2 : Gestion des Parties & Inscriptions</strong>
+            <div class="item-desc">Machine d'état des parties (Brouillon, Inscriptions ouvertes, En cours, Terminée),
+              gestion des inscriptions/désinscriptions joueurs avec règles de statut.</div>
+          </td>
+          <td style="text-align: center;">5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 500,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 3 : Gestion des Parcours & Configuration 18 Trous</strong>
+            <div class="item-desc">Espace d'administration des parcours, configuration dynamique des 18 trous (Pars,
+              Distances, Difficulté, Sections Aller/Retour).</div>
+          </td>
+          <td style="text-align: center;">3.5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 050,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 4 : Carte de Score Digitale (PWA & Offline)</strong>
+            <div class="item-desc">Interface tactile mobile-first pour la saisie des coups et pénalités trou par trou
+              (Aller 1-9 / Retour 10-18), synchronisation automatique hors-ligne via IndexedDB.</div>
+          </td>
+          <td style="text-align: center;">5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 500,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 5 : Temps Réel (WebSockets) & Leaderboard Live</strong>
+            <div class="item-desc">Diffusion en direct des scores par WebSockets, tableau de classement temps réel avec
+              calcul automatique des égalités/départages.</div>
+          </td>
+          <td style="text-align: center;">3.5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 050,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 6 : Déploiement & Configuration VPS (PostgreSQL Natif)</strong>
+            <div class="item-desc">Installation sur le VPS Linux, configuration des
+              services Systemd, Nginx Reverse Proxy & SSL HTTPS.</div>
+          </td>
+          <td style="text-align: center;">3.5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>1 050,00 DH</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Module 7 : Recette, Tests d'Intégration & Documentation</strong>
+            <div class="item-desc">Recette fonctionnelle complète, tests d'intégration et rédaction des guides
+              d'utilisation et de maintenance.</div>
+          </td>
+          <td style="text-align: center;">1.5</td>
+          <td style="text-align: center;">300 DH</td>
+          <td>450,00 DH</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Totaux -->
+    <div class="totals-container">
+      <div class="totals-box">
+        <div class="totals-row">
+          <span>Total Jours / Homme :</span>
+          <span>25.5 J.H</span>
+        </div>
+        <div class="totals-row">
+          <span>TJM HT :</span>
+          <span>300,00 DH</span>
+        </div>
+        <div class="totals-row final">
+          <span>TOTAL HT :</span>
+          <span>7 650,00 DH</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hébergement & Domaine -->
+    <div class="payment-terms">
+      <h4>Hébergement & Nom de domaine (frais annexes)</h4>
+      <p>• <strong>VPS & Hébergement (1er an) :</strong> 1 400,00 DH</p>
+      <p>• <strong>Domaine (1er an) :</strong> Sous-domaine gratuit ou domaine en .com 250,00 DH</p>
+    </div>
+
+    <!-- Modalités de paiement -->
+    <div class="payment-terms">
+      <h4>Conditions de Paiement & Modalités</h4>
+      <p>• <strong>30 % à la commande :</strong> 2 295,00 DH HT</p>
+      <p>• <strong>40 % au livrable V1 (Recette & Tests) :</strong> 3 060,00 DH HT</p>
+      <p>• <strong>30 % à la livraison finale :</strong> 2 295,00 DH HT</p>
+      <p style="margin-top: 6px; font-size: 12px; color: var(--slate-600);">
+        * Garantie corrective offerte pendant 2 mois après la mise en production.
+      </p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

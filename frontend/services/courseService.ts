@@ -15,12 +15,17 @@ export const courseService = {
   },
 
   async createCourse(payload: CourseCreate) {
-    const { data } = await api.post<ApiResponse<Course>>("/courses", payload);
+    const { data } = await api.post<ApiResponse<Course>>("/courses/admin", payload);
     return data.data;
   },
 
   async updateCourse(id: string, payload: CourseUpdate) {
-    const { data } = await api.put<ApiResponse<Course>>(`/courses/${id}`, payload);
+    const { data } = await api.put<ApiResponse<Course>>(`/courses/admin/${id}`, payload);
+    return data.data;
+  },
+
+  async deleteCourse(id: string) {
+    const { data } = await api.delete<ApiResponse<null>>(`/courses/admin/${id}`);
     return data.data;
   },
 
@@ -30,7 +35,8 @@ export const courseService = {
   },
 
   async bulkSaveHoles(courseId: string, payload: HoleBulkCreate) {
-    const { data } = await api.post<ApiResponse<Hole[]>>(`/courses/${courseId}/holes/bulk`, payload);
+    const { data } = await api.post<ApiResponse<Hole[]>>(`/courses/admin/${courseId}/holes/bulk`, payload);
     return data.data;
   },
 };
+

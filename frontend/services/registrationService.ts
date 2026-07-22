@@ -9,12 +9,12 @@ export const registrationService = {
   },
 
   async register(gameId: string) {
-    const { data } = await api.post<ApiResponse<GamePlayer>>(`/games/${gameId}/players`);
+    const { data } = await api.post<ApiResponse<GamePlayer>>(`/games/${gameId}/register`);
     return data.data;
   },
 
   async cancelRegistration(gameId: string) {
-    const { data } = await api.delete<ApiResponse<null>>(`/games/${gameId}/players/me`);
+    const { data } = await api.delete<ApiResponse<null>>(`/games/${gameId}/registration`);
     return data.data;
   },
 
@@ -28,3 +28,4 @@ export const registrationService = {
     return data.data;
   },
 };
+

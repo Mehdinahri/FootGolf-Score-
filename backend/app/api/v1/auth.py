@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session
 
 from app.api import deps
-from app.schemas.auth import LoginRequest, LoginResponse, RefreshRequest, RefreshResponse
+from app.schemas.auth import LoginRequest, LoginResponse, RefreshRequest, RefreshResponse, RegisterRequest
 from app.schemas.common import ApiResponse, success_response
 from app.schemas.user import UserResponse
 from app.services.auth_service import AuthService
@@ -14,6 +14,18 @@ from app.models.user import User
 
 router = APIRouter()
 
+@router.post("/register", response_model=ApiResponse[LoginResponse])
+def register(
+    request: Request,
+    payload: RegisterRequest,
+    db: Session = Depends(deps.get_db),
+) -> dict:
+    """Inscription d'un nouveau joueur."""
+    ip = request.client.host if request.client else None
+    ua = request.headers.get("user-agent")
+    
+    tokens = AuthService.register(db, payload, ip_address=ip, user_agent=ua)
+    return success_response("Inscription réussie", data=tokens.model_dump())
 
 @router.post("/login", response_model=ApiResponse[LoginResponse])
 def login(

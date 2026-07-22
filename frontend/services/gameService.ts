@@ -19,32 +19,28 @@ export const gameService = {
   },
 
   async createGame(payload: GameCreate) {
-    const { data } = await api.post<ApiResponse<Game>>("/games", payload);
+    const { data } = await api.post<ApiResponse<Game>>("/games/admin", payload);
     return data.data;
   },
 
   async updateGame(id: string, payload: GameUpdate) {
-    const { data } = await api.put<ApiResponse<Game>>(`/games/${id}`, payload);
+    const { data } = await api.put<ApiResponse<Game>>(`/games/admin/${id}`, payload);
     return data.data;
   },
 
-  async publishGame(id: string) {
-    const { data } = await api.post<ApiResponse<Game>>(`/games/${id}/publish`);
+  async openRegistration(id: string) {
+    const { data } = await api.post<ApiResponse<Game>>(`/games/admin/${id}/open-registration`);
     return data.data;
   },
 
   async startGame(id: string) {
-    const { data } = await api.post<ApiResponse<Game>>(`/games/${id}/start`);
+    const { data } = await api.post<ApiResponse<Game>>(`/games/admin/${id}/start`);
     return data.data;
   },
 
   async finishGame(id: string) {
-    const { data } = await api.post<ApiResponse<Game>>(`/games/${id}/finish`);
-    return data.data;
-  },
-
-  async cancelGame(id: string, reason?: string) {
-    const { data } = await api.post<ApiResponse<Game>>(`/games/${id}/cancel`, { reason });
+    const { data } = await api.post<ApiResponse<Game>>(`/games/admin/${id}/finish`);
     return data.data;
   },
 };
+

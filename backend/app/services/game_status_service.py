@@ -29,12 +29,12 @@ class GameStatusService:
             if game.registered_count == 0:
                 raise FootGolfException("Impossible de démarrer une partie sans joueurs.")
             
-            # Vérifier si le parcours a bien 18 trous
+            # Vérifier si le parcours a au moins 1 trou
             from app.models.hole import Hole
             stmt = select(Hole).where(Hole.course_id == game.course_id)
             holes = db.scalars(stmt).all()
-            if len(holes) != 18:
-                raise FootGolfException("Impossible de démarrer la partie : le parcours doit avoir exactement 18 trous.")
+            if len(holes) == 0:
+                raise FootGolfException("Impossible de démarrer la partie : le parcours doit avoir au moins 1 trou configuré.")
 
         game.status = new_status
         db.add(game)

@@ -22,7 +22,10 @@ router = APIRouter()
 # ── GAMES LIST & GET ───────────────────────────────────────────────
 
 @router.get("", response_model=ApiResponse)
-def list_games(db: Session = Depends(deps.get_db)) -> dict:
+def list_games(
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_active_user),
+) -> dict:
     """Récupérer la liste des parties disponibles pour inscription ou en cours."""
     games = game_repo.get_available_games(db)
     items = []
@@ -52,7 +55,11 @@ def list_admin_games(
     return paginated_response(items=items, total=len(items), page=1, page_size=100)
 
 @router.get("/{game_id}", response_model=ApiResponse[GameResponse])
-def get_game(game_id: uuid.UUID, db: Session = Depends(deps.get_db)) -> dict:
+def get_game(
+    game_id: uuid.UUID,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_active_user),
+) -> dict:
     game = game_repo.get(db, id=game_id)
     if not game:
         raise NotFoundError("Partie introuvable")
@@ -151,7 +158,8 @@ def cancel_registration(
 @router.get("/{game_id}/players", response_model=ApiResponse)
 def get_game_players(
     game_id: uuid.UUID,
-    db: Session = Depends(deps.get_db)
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_active_user),
 ) -> dict:
     """Récupérer la liste des joueurs inscrits."""
     players = game_player_repo.get_by_game(db, game_id=game_id)

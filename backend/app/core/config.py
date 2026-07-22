@@ -5,7 +5,15 @@ Charge les variables d'environnement depuis le fichier .env
 et les expose via l'objet singleton `settings`.
 """
 
+import logging
 from pydantic_settings import BaseSettings
+
+logger = logging.getLogger("footgolf")
+
+_INSECURE_SECRET_KEYS = {
+    "change-this-secret-key-in-production",
+    "dev-secret-key-change-in-production-use-openssl-rand-hex-32",
+}
 
 
 class Settings(BaseSettings):
@@ -49,3 +57,18 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# ── Startup Security Checks ────────────────────────────────────
+if settings.SECRET_KEY in _INSECURE_SECRET_KEYS:
+    if not settings.DEBUG:
+        logger.critical(
+            "🔴 CRITICAL: SECRET_KEY is set to an insecure default value! "
+            "Generate a secure key with: python -c \"import secrets; print(secrets.token_hex(32))\" "
+            "and set it in your .env file. The application should NOT run in production with this key."
+        )
+    else:
+        logger.warning(
+            "⚠️  SECRET_KEY is using a development default. "
+            "Remember to change it before deploying to production."
+        )
+

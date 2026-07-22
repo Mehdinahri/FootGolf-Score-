@@ -5,16 +5,8 @@ import { useGames } from "@/hooks/queries/useGames";
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, MapPin, Trophy } from "lucide-react";
 import Link from "next/link";
-
-interface Game {
-  id: string;
-  title: string;
-  start_date: string;
-  status: "DRAFT" | "REGISTRATION_OPEN" | "REGISTRATION_CLOSED" | "IN_PROGRESS" | "FINISHED" | "CANCELLED";
-  registered_count: number;
-  max_players: number;
-  course_name: string;
-}
+import { gameStatusLabels, getStatusBadgeClasses } from "@/lib/gameStatus";
+import type { GameStatus } from "@/types/domain/game";
 
 export default function DashboardPage() {
   const { data: paginatedData, isLoading, error } = useGames();
@@ -57,11 +49,11 @@ export default function DashboardPage() {
             >
               <div className="p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="inline-flex items-center rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    {game.status}
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${getStatusBadgeClasses(game.status)}`}>
+                    {gameStatusLabels[game.status] || game.status}
                   </span>
                   <span className="text-sm text-slate-500">
-                    {new Date(game.start_date).toLocaleDateString("fr-FR")}
+                    {game.start_date ? new Date(game.start_date).toLocaleDateString("fr-FR") : "Non définie"}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">

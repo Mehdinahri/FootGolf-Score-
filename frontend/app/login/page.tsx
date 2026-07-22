@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const loginSchema = z.object({
   email: z.string().email("Adresse email invalide"),
@@ -118,6 +119,12 @@ export default function LoginPage() {
             >
               {isSubmitting ? "Connexion..." : "Se connecter"}
             </Button>
+          </div>
+          <div className="mt-4 text-center text-sm">
+            Pas encore de compte ?{" "}
+            <Link href="/register" className="font-semibold text-green-600 hover:text-green-500">
+              S'inscrire
+            </Link>
           </div>
         </form>
       </div>

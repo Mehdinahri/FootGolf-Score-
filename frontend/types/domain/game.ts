@@ -1,4 +1,4 @@
-export type GameStatus = "DRAFT" | "PUBLISHED" | "IN_PROGRESS" | "FINISHED" | "CANCELLED";
+export type GameStatus = "DRAFT" | "REGISTRATION_OPEN" | "FULL" | "REGISTRATION_CLOSED" | "IN_PROGRESS" | "FINISHED" | "CANCELLED";
 
 export interface Game {
   id: string;
@@ -9,6 +9,7 @@ export interface Game {
   status: GameStatus;
   max_players?: number;
   registered_count: number;
+  course_name?: string;
   created_at: string;
   updated_at?: string;
 }

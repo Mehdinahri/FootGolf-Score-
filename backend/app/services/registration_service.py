@@ -72,8 +72,8 @@ class RegistrationService:
         if not game:
             raise NotFoundError("Partie introuvable.")
 
-        if game.status == GameStatus.IN_PROGRESS or game.status == GameStatus.FINISHED:
-            raise FootGolfException("Impossible d'annuler l'inscription une fois la partie commencée.")
+        if game.status not in (GameStatus.REGISTRATION_OPEN, GameStatus.FULL):
+            raise FootGolfException("L'annulation d'une inscription n'est possible que lorsque les inscriptions sont ouvertes.")
 
         stmt_player = select(GamePlayer).where(
             GamePlayer.game_id == game_id,

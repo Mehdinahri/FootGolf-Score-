@@ -18,12 +18,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    if (typeof window !== "undefined") {
-      return !!localStorage.getItem("access_token");
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setIsAuthenticated(true);
     }
-    return false;
-  });
+    setIsInitialized(true);
+  }, []);
 
   const { data: user, isLoading: isQueryLoading, refetch } = useQuery({
     queryKey: queryKeys.auth.me,
@@ -50,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     window.location.href = "/login";
   };
 
-  const isLoading = isAuthenticated ? isQueryLoading : false;
+  const isLoading = !isInitialized || (isAuthenticated && isQueryLoading);
 
   return (
     <AuthContext.Provider value={{ user: user || null, isLoading, login, logout }}>

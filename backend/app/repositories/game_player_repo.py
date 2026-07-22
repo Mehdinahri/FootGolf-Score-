@@ -15,7 +15,11 @@ class GamePlayerRepository(BaseRepository[GamePlayer]):
         return db.scalars(stmt).first()
 
     def get_by_game(self, db: Session, game_id: UUID) -> List[GamePlayer]:
-        stmt = select(GamePlayer).where(GamePlayer.game_id == game_id).order_by(GamePlayer.registered_at)
+        from app.models.game_player import RegistrationStatus
+        stmt = select(GamePlayer).where(
+            GamePlayer.game_id == game_id,
+            GamePlayer.status != RegistrationStatus.CANCELLED
+        ).order_by(GamePlayer.registered_at)
         return list(db.scalars(stmt).all())
 
 game_player_repo = GamePlayerRepository(GamePlayer)

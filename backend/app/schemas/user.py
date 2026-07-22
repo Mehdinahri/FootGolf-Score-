@@ -88,3 +88,22 @@ class UserBrief(BaseModel):
     @property
     def initials(self) -> str:
         return f"{self.first_name[0]}{self.last_name[0]}".upper()
+
+
+class UserHistoryItem(BaseModel):
+    """Informations sur une partie jouée par l'utilisateur."""
+
+    game_id: UUID
+    title: str
+    course_name: str
+    start_date: datetime | None = None
+    status: str
+    registered_at: datetime
+    attendance: str | None = None
+    
+    # Statistiques de la partie
+    total_score: int | None = None
+    relative_to_par: int | None = None
+    position: int | None = None
+
+    model_config = ConfigDict(from_attributes=True)

@@ -18,7 +18,10 @@ router = APIRouter()
 # ── COURSES ─────────────────────────────────────────────────────────
 
 @router.get("", response_model=ApiResponse)
-def list_courses(db: Session = Depends(deps.get_db)) -> dict:
+def list_courses(
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_active_user),
+) -> dict:
     """Récupérer la liste des parcours actifs."""
     courses = course_repo.get_multi(db, limit=100)
     # Dans une vraie app on pourrait filtrer sur is_active=True pour les joueurs
@@ -26,7 +29,11 @@ def list_courses(db: Session = Depends(deps.get_db)) -> dict:
     return paginated_response(items=items, total=len(items), page=1, page_size=100)
 
 @router.get("/{course_id}", response_model=ApiResponse[CourseResponse])
-def get_course(course_id: uuid.UUID, db: Session = Depends(deps.get_db)) -> dict:
+def get_course(
+    course_id: uuid.UUID,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_active_user),
+) -> dict:
     course = course_repo.get(db, id=course_id)
     if not course:
         raise NotFoundError("Parcours introuvable")

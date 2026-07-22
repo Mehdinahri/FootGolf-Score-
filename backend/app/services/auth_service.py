@@ -36,6 +36,35 @@ class AuthService:
         return AuthService._generate_tokens(db, user, ip_address, user_agent)
 
     @staticmethod
+    def register(db: Session, request: "RegisterRequest", ip_address: str | None = None, user_agent: str | None = None) -> LoginResponse:
+        """Crée un nouvel utilisateur et le connecte immédiatement."""
+        from app.schemas.auth import RegisterRequest
+        from app.core.exceptions import FootGolfException
+        from app.models.user import UserRole
+
+        # Vérifier si l'email existe déjà
+        existing_user = user_repo.get_by_email(db, email=request.email)
+        if existing_user:
+            raise FootGolfException(message="Cet email est déjà utilisé.", status_code=400)
+
+        # Créer l'utilisateur
+        new_user = User(
+            first_name=request.first_name,
+            last_name=request.last_name,
+            email=request.email,
+            password_hash=security.hash_password(request.password),
+            role=UserRole.PLAYER,
+            is_active=True,
+            last_login_at=datetime.now(timezone.utc)
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        # Connecter l'utilisateur
+        return AuthService._generate_tokens(db, new_user, ip_address, user_agent)
+
+    @staticmethod
     def refresh(db: Session, request: RefreshRequest, ip_address: str | None = None, user_agent: str | None = None) -> RefreshResponse:
         """Rafraîchit l'access token à partir d'un refresh token valide."""
         try:

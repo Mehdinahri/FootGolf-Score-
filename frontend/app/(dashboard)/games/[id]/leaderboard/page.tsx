@@ -24,7 +24,7 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     if (lastMessage?.type === "LEADERBOARD_UPDATE") {
-      setLeaderboard(lastMessage.payload.rows);
+      setLeaderboard(lastMessage.data.rows);
     }
   }, [lastMessage]);
 
